@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Longshot: full-page screenshots that stay on your machine</title>
+    <meta name="description" content="A Chrome extension that captures an entire web page at your screen's native resolution. Two permissions, no host access, no network code." />
+    <link rel="icon" href="icon.png" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header><img src="icon.png" alt="" /><b>Longshot</b></header>
+
+    <h1>The whole page, at your screen's own resolution</h1>
+    <p class="lede">
+      Longshot photographs an entire web page, not just the part that fits on
+      screen. Click once and it scrolls the page for you, captures every
+      screenful, and stitches them into a single image you can save or copy.
+    </p>
+
+    <h2>What makes it different</h2>
+    <ul>
+      <li><b>It never shrinks anything.</b> Captures happen at your display's own
+        pixel density, so a Retina screen gives you a Retina image. Pages too
+        tall for one image are split into several full-resolution pieces rather
+        than blurred to fit.</li>
+      <li><b>Sticky headers are handled.</b> Your navigation bar appears once at
+        the top, instead of being stamped across every screenful.</li>
+      <li><b>It says what it is doing.</b> Live progress, an explanation on the
+        page itself, and Escape to stop.</li>
+    </ul>
+
+    <h2>Why it cannot spy on you</h2>
+    <div class="card">
+      <p>
+        Longshot requests exactly two permissions. <code>activeTab</code> grants
+        access to a single tab, only at the moment you click the icon.
+        <code>scripting</code> allows it to call Chrome's injection API, and
+        grants access to nothing on its own.
+      </p>
+      <p>
+        It declares no <code>host_permissions</code>, which is the setting that
+        would let an extension read sites in the background. And it contains no
+        <code>fetch</code>, no <code>XMLHttpRequest</code>, no
+        <code>WebSocket</code> and no remotely loaded script, so there is no code
+        path capable of sending an image anywhere.
+      </p>
+      <p>
+        You do not have to take that on trust. The source is public and short
+        enough to read in a sitting.
+      </p>
+    </div>
+
+    <h2>Getting it</h2>
+    <p>
+      Longshot is being prepared for the Chrome Web Store. Until then you can
+      load it yourself: download the source, open
+      <code>chrome://extensions</code>, turn on Developer mode, and choose
+      <b>Load unpacked</b>.
+    </p>
+
+    <footer>
+      <a href="privacy.html">Privacy policy</a> &nbsp;·&nbsp;
+      <a href="https://github.com/tooaverage/longshot">Source on GitHub</a>
+    </footer>
+  </body>
+</html>

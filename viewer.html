@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Longshot</title>
+    <style>
+      :root {
+        --bg: #f6f6f4;
+        --surface: #ffffff;
+        --line: #e2e2dd;
+        --text: #1a1a18;
+        --muted: #5f5f5a;
+        --accent: #a8431d;
+        --btn: #1a1a18;
+        --btn-text: #fafaf9;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #121214;
+          --surface: #1a1a1d;
+          --line: #2f2f35;
+          --text: #eeeef1;
+          --muted: #a0a0a9;
+          --accent: #e8804f;
+          --btn: #eeeef1;
+          --btn-text: #151518;
+        }
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font: 400 14px/1.5 ui-sans-serif, -apple-system, "SF Pro Text", system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+        border-radius: 4px;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 12px 20px;
+        background: var(--surface);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .id { min-width: 0; flex: 1; }
+      .id h1 {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 550;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .id p {
+        margin: 2px 0 0;
+        font-size: 12px;
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .id p b { font-weight: 550; color: var(--text); }
+
+      .actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+      button {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        height: 34px;
+        padding: 0 13px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        color: var(--text);
+        font: inherit;
+        font-weight: 500;
+        cursor: pointer;
+        transition: border-color 150ms ease, background-color 150ms ease;
+      }
+      button:hover:not(:disabled) { border-color: var(--muted); }
+      button:active:not(:disabled) { background: var(--bg); }
+      button:disabled { opacity: 0.45; cursor: default; }
+      button.primary { background: var(--btn); border-color: var(--btn); color: var(--btn-text); }
+      button.small { height: 26px; padding: 0 10px; font-size: 12px; border-radius: 6px; }
+      button svg { width: 15px; height: 15px; }
+
+      main { padding: 28px 20px 64px; display: flex; justify-content: center; }
+      .column { width: 100%; max-width: 1100px; }
+
+      /* Hairline on all four sides. No accent stripe down the edge, no tinted
+         ground: this is a sentence of explanation, not a severity badge. */
+      .note {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin: 0 0 12px;
+        padding: 11px 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .note svg { flex: none; width: 15px; height: 15px; margin-top: 2px; }
+      .note p { margin: 0; }
+      #notes:not(:empty) { margin-bottom: 8px; }
+
+      .status {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        padding: 96px 20px;
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+      }
+      .status svg { width: 20px; height: 20px; }
+      .status p { margin: 0; max-width: 46ch; text-align: center; }
+      .track {
+        width: 220px;
+        height: 3px;
+        border-radius: 2px;
+        background: var(--line);
+        overflow: hidden;
+      }
+      .track span {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: var(--accent);
+        transition: width 150ms ease;
+      }
+
+      figure {
+        margin: 0 0 20px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        overflow: hidden;
+        background: var(--surface);
+      }
+      figure:last-child { margin-bottom: 0; }
+      figcaption {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px 8px 14px;
+        border-bottom: 1px solid var(--line);
+        font-size: 12px;
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+      }
+      figcaption span { flex: 1; }
+      figure img { display: block; width: 100%; height: auto; }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+        }
+      }
+
+      [hidden] { display: none !important; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="id">
+        <h1 id="title">Capturing…</h1>
+        <p id="detail"></p>
+      </div>
+      <div class="actions">
+        <button id="copy" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+          </svg>
+          <span>Copy</span>
+        </button>
+        <button id="jpg" disabled><span>JPG</span></button>
+        <button id="png" class="primary" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" x2="12" y1="15" y2="3" />
+          </svg>
+          <span>PNG</span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <div class="column">
+        <div id="notes"></div>
+        <div class="status" id="status" role="status" aria-live="polite">
+          <div class="track" id="track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <span id="bar"></span>
+          </div>
+          <p id="status-text">Stitching the screenfuls together</p>
+        </div>
+        <div id="sheets"></div>
+      </div>
+    </main>
+
+    <script src="viewer.js"></script>
+  </body>
+</html>

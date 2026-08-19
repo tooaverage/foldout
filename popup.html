@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Longshot</title>
+    <style>
+      /* Same tokens as viewer.html. Kept inline so the popup is self-contained. */
+      :root {
+        color-scheme: light dark;
+        --bg: #ffffff;
+        --sunken: #f6f6f4;
+        --line: #e2e2dd;
+        --text: #1a1a18;
+        --muted: #5f5f5a;
+        --accent: #a8431d;
+        --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #1a1a1d;
+          --sunken: #121214;
+          --line: #2f2f35;
+          --text: #eeeef1;
+          --muted: #a0a0a9;
+          --accent: #e8804f;
+        }
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        width: 320px;
+        margin: 0;
+        padding: 14px;
+        background: var(--bg);
+        color: var(--text);
+        font: 400 13px/1.45 ui-sans-serif, -apple-system, "SF Pro Text", system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding-bottom: 11px;
+        border-bottom: 1px solid var(--line);
+      }
+      .brand img { width: 18px; height: 18px; border-radius: 4px; }
+      .brand b { font-size: 13px; font-weight: 600; letter-spacing: -0.005em; flex: 1; }
+
+      .stage { display: flex; align-items: baseline; gap: 10px; margin: 13px 0 0; }
+      .stage h1 { margin: 0; font-size: 13px; font-weight: 600; flex: 1; letter-spacing: -0.005em; }
+      .pct {
+        font: 500 12px ui-monospace, SFMono-Regular, Menlo, monospace;
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+      }
+      .stage p { margin: 3px 0 0; color: var(--muted); }
+
+      .track {
+        height: 4px;
+        margin: 11px 0 0;
+        border-radius: 2px;
+        background: var(--line);
+        overflow: hidden;
+      }
+      .fill {
+        display: block;
+        height: 100%;
+        width: 0;
+        border-radius: 2px;
+        background: var(--accent);
+        transition: width 220ms var(--ease);
+      }
+      /* Before the first screenful there is no honest percentage to show, so
+         sweep instead of pretending to know. */
+      .track.waiting .fill { width: 35%; animation: sweep 1.5s var(--ease) infinite; }
+      @keyframes sweep {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(340%); }
+      }
+
+      .row { display: flex; gap: 8px; margin-top: 13px; }
+      button {
+        flex: 1;
+        height: 30px;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        background: var(--bg);
+        color: var(--text);
+        font: 500 12px/1 inherit;
+        font-family: inherit;
+        cursor: pointer;
+        transition: border-color 150ms var(--ease);
+      }
+      button:hover { border-color: var(--muted); }
+
+      .safe {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        margin: 13px -14px -14px;
+        padding: 10px 14px;
+        border-top: 1px solid var(--line);
+        background: var(--sunken);
+        color: var(--muted);
+        font-size: 11.5px;
+      }
+      .safe svg { width: 13px; height: 13px; flex: none; }
+
+      @media (prefers-reduced-motion: reduce) {
+        .fill { transition: none; }
+        .track.waiting .fill { animation: none; width: 100%; }
+      }
+      [hidden] { display: none !important; }
+    </style>
+  </head>
+  <body>
+    <div class="brand">
+      <img src="icons/icon-32.png" alt="" />
+      <b>Longshot</b>
+    </div>
+
+    <div class="stage">
+      <h1 id="headline">Getting ready</h1>
+      <span class="pct" id="pct" hidden></span>
+    </div>
+    <p id="detail">Measuring the page</p>
+
+    <div class="track waiting" id="track" role="progressbar" aria-labelledby="headline">
+      <span class="fill" id="fill"></span>
+    </div>
+
+    <div class="row" id="row">
+      <button id="stop">Stop</button>
+    </div>
+
+    <div class="safe">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+      </svg>
+      <span>Runs on your device. Nothing is uploaded.</span>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
