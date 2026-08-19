@@ -9,8 +9,7 @@
 2. **Create the Chrome Web Store developer account and pay the one-time $5.**
    Google requires a real person with a payment method and does an email
    verification. There is no API for this step.
-3. **Approve the GitHub repo** (see below). The privacy policy needs a public URL
-   before you can submit, and GitHub Pages is the cheapest way to get one.
+3. Nothing else. The repo and the privacy policy URL are done.
 
 ## Already done, nothing needed from you
 
@@ -19,7 +18,8 @@
 - 29 automated checks across four page shapes, all passing.
 - Listing copy, single-purpose statement, both permission justifications and the
   full data-disclosure table, all written out in `STORE.md`.
-- Privacy policy written in `PRIVACY.md`.
+- Privacy policy written, and live at
+  <https://tooaverage.github.io/longshot/privacy.html>.
 - Five listing images in `store-assets/`: four 1280x800 screenshots plus the
   440x280 promo tile.
 - `node tools/package.mjs` builds the upload and blocks the build if a permission
@@ -51,14 +51,18 @@ it. If you want listing artwork or the icon designed in Figma rather than
 generated from code, authorise it in your claude.ai connector settings and I can
 work from your file directly. The Google Drive connector is in the same state.
 
-### Already available, no setup needed
+### Already done with what was available
 
-`gh` is installed and signed in as **tooaverage**, so I can create the repo, push
-the code, and turn on GitHub Pages for the privacy policy without you touching
-anything. I have not done it yet because publishing a public repo under your
-account is your call. Note that Pages on a private repo needs a paid plan, so a
-public repo is the practical route, which also happens to back up the privacy
-claim: anyone can read the source and confirm there is no network code.
+`gh` was signed in as **tooaverage**, so the repo is created, pushed, and serving
+Pages:
+
+- Source: <https://github.com/tooaverage/longshot>
+- Privacy policy, for the store form: <https://tooaverage.github.io/longshot/privacy.html>
+- Landing page: <https://tooaverage.github.io/longshot/>
+
+The privacy page is generated from `PRIVACY.md`, so the words live in one place.
+Public also happens to back the privacy claim: anyone can read the source and
+confirm there is no network code.
 
 ## Nice to have, not blocking
 

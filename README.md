@@ -1,5 +1,7 @@
 # Longshot
 
+<https://tooaverage.github.io/longshot/>
+
 A full-page screenshot extension for Chrome. It scrolls the page, captures each
 screenful at your display's native resolution, and stitches them into one image.
 

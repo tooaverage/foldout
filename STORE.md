@@ -32,10 +32,15 @@ keyword spam under the metadata policy. Describe what this does instead.
 - [ ] Decide the final name. It must match `manifest.json`, the listing title,
       and ideally the repo. Search the store for it first.
 - [ ] Pay the one-time $5 developer registration fee and verify the account.
-- [ ] Host `PRIVACY.md` at a public URL and paste that URL into the Privacy tab.
-      A GitHub Pages page or a repo file both work.
+- [x] Privacy policy is live at <https://tooaverage.github.io/longshot/privacy.html>. Paste that into the Privacy tab.
 - [ ] Produce listing screenshots (see below).
 - [ ] Run `node tools/package.mjs` and upload the resulting zip.
+
+**Privacy policy URL:** <https://tooaverage.github.io/longshot/privacy.html>
+
+**Homepage URL:** <https://tooaverage.github.io/longshot/>
+
+**Source:** <https://github.com/tooaverage/longshot>
 
 ## Listing copy
 
