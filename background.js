@@ -461,7 +461,9 @@ function showCurtain() {
   veil.style.background = backdrop;
   const word = document.createElement('span');
   word.className = 'word';
-  word.textContent = 'Getting the page ready';
+  // The panel below carries progress; the cover carries the instruction, since
+  // this is where the eye lands while the page races past.
+  word.textContent = 'Longshot is scrolling this page to load everything. Stay on this tab.';
   veil.append(word);
   shadow.append(style, veil);
   (document.body || document.documentElement).appendChild(host);

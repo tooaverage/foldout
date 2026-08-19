@@ -414,10 +414,14 @@ try {
 
   const duty = await page.eval(`(async () => {
     let visible = 0, samples = 0;
-    let curtainSeen = false, curtainDuringCapture = false;
+    let curtainSeen = false, curtainDuringCapture = false, curtainWords = '';
     for (let i = 0; i < 700; i++) {
       const curtain = document.getElementById('__longshot_curtain');
-      if (curtain) curtainSeen = true;
+      if (curtain) {
+        curtainSeen = true;
+        const w = curtain.shadowRoot && curtain.shadowRoot.querySelector('.word');
+        if (w) curtainWords = w.textContent;
+      }
       const host = document.getElementById('__longshot_ui');
       if (!host) {
         if (samples > 5) break;
@@ -433,9 +437,13 @@ try {
       }
       await new Promise(r => setTimeout(r, 30));
     }
-    return { visible, samples, curtainSeen, curtainDuringCapture };
+    return { visible, samples, curtainSeen, curtainDuringCapture, curtainWords };
   })()`);
   record(duty.curtainSeen, 'the fast priming scroll is covered rather than shown');
+  record(
+    /stay on this tab/i.test(duty.curtainWords || ''),
+    `the cover itself tells you to stay on the tab ("${(duty.curtainWords || '').slice(0, 70)}")`
+  );
   record(
     !duty.curtainDuringCapture,
     'that cover is gone before the first screenful, so it cannot be photographed'

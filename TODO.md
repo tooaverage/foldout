@@ -6,9 +6,15 @@
    title, and the repo. Search the Web Store for it first. Everything else is
    ready to go the moment this is decided; the filename prefix and the popup
    wordmark both read from the manifest, so a rename carries through by itself.
-2. **Create the Chrome Web Store developer account and pay the one-time $5.**
-   Google requires a real person with a payment method and does an email
-   verification. There is no API for this step.
+2. **Turn on 2-Step Verification** on the Google account you will publish from.
+   Google refuses to publish or update an extension without it, so this blocks
+   everything else. Do it first.
+3. **Create the Chrome Web Store developer account and pay the one-time $5.**
+   A real person with a payment method; there is no API for this step.
+4. **Do the first submission by hand.** The API cannot set listing text,
+   screenshots, category or privacy answers, so submission one is unavoidably a
+   dashboard session. [SUBMIT.md](SUBMIT.md) walks it tab by tab with the exact
+   text to paste, and should take about 20 minutes.
 3. Nothing else. The repo and the privacy policy URL are done.
 
 ## Already done, nothing needed from you
