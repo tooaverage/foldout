@@ -35,20 +35,17 @@
 
 Listed by how much work they take off you.
 
-### 1. Chrome Web Store API (worth it)
+### 1. Chrome Web Store API (worth it, but not for the first submission)
 
-Lets me upload new versions and publish from the command line, so shipping an
-update becomes one instruction instead of a dashboard session. Setup, roughly
-ten minutes, once:
+It can upload a version, publish it, check review status and cancel a
+submission. It **cannot** set listing text, screenshots, category or privacy
+answers, so it does nothing for submission one. Afterwards, a version bump
+becomes one instruction to me instead of a dashboard session.
 
-1. Create a project at <https://console.cloud.google.com>.
-2. Enable the **Chrome Web Store API** for it.
-3. Create an **OAuth client ID**, application type **Desktop app**.
-4. Send me the client ID and client secret, and I will walk you through the
-   single consent click that produces a refresh token.
-
-Then I can upload, publish, and read review status directly. Note this still
-needs the paid developer account from step 2 above to exist first.
+Step-by-step, about ten minutes, in [SUBMIT.md](SUBMIT.md) Part 2. Note the
+OAuth client must be type **Web application** with
+`https://developers.google.com/oauthplayground` as its redirect URI, which is
+the flow Google's own docs use.
 
 ### 2. Authorise the Figma connector
 
