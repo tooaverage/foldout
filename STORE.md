@@ -8,11 +8,11 @@ the developer dashboard fields directly.
 Publishable, and unusually low risk. The 2026 policy tightening that took effect
 on 1 August is almost entirely about user data: the Limited Use policy, prominent
 disclosure of collection, and reviewers cross-checking the Privacy tab against
-actual extension behaviour. Longshot collects nothing and contains no code that
+actual extension behaviour. Foldout collects nothing and contains no code that
 could, so the part of review that fails most extensions does not apply.
 
 The three things that most often slow a review are broad host permissions,
-obfuscated or minified code, and missing listing metadata. Longshot has no host
+obfuscated or minified code, and missing listing metadata. Foldout has no host
 permissions, ships readable unminified source, and the metadata is written below.
 
 ## What happened to the extension this replaces, and why it is not our risk
@@ -32,15 +32,15 @@ keyword spam under the metadata policy. Describe what this does instead.
 - [ ] Decide the final name. It must match `manifest.json`, the listing title,
       and ideally the repo. Search the store for it first.
 - [ ] Pay the one-time $5 developer registration fee and verify the account.
-- [x] Privacy policy is live at <https://tooaverage.github.io/longshot/privacy.html>. Paste that into the Privacy tab.
+- [x] Privacy policy is live at <https://tooaverage.github.io/foldout/privacy.html>. Paste that into the Privacy tab.
 - [ ] Produce listing screenshots (see below).
 - [ ] Run `node tools/package.mjs` and upload the resulting zip.
 
-**Privacy policy URL:** <https://tooaverage.github.io/longshot/privacy.html>
+**Privacy policy URL:** <https://tooaverage.github.io/foldout/privacy.html>
 
-**Homepage URL:** <https://tooaverage.github.io/longshot/>
+**Homepage URL:** <https://tooaverage.github.io/foldout/>
 
-**Source:** <https://github.com/tooaverage/longshot>
+**Source:** <https://github.com/tooaverage/foldout>
 
 ## Listing copy
 
@@ -52,11 +52,11 @@ keyword spam under the metadata policy. Describe what this does instead.
 
 **Detailed description:**
 
-> Longshot photographs an entire web page, not just the part that fits on screen.
+> Foldout photographs an entire web page, not just the part that fits on screen.
 > Click the toolbar icon and it scrolls the page for you, captures each screenful,
 > and stitches them into a single image you can save or copy.
 >
-> Full resolution, always. Longshot captures at your display's native pixel
+> Full resolution, always. Foldout captures at your display's native pixel
 > density, so a Retina screen produces a Retina image. It never scales anything
 > down to make it fit. When a page is taller than Chrome can hold in one image, it
 > splits the result into several full-resolution pieces that join edge to edge
@@ -72,7 +72,7 @@ keyword spam under the metadata policy. Describe what this does instead.
 > result, and everything is put back exactly as it was when it finishes.
 >
 > Nothing leaves your computer. There is no account, no server, no analytics and
-> no upgrade prompt. Longshot asks for two permissions and no host permissions at
+> no upgrade prompt. Foldout asks for two permissions and no host permissions at
 > all, which means it has no standing access to any website. It can only read the
 > single tab you point it at, only at the moment you click, and it contains no
 > network code of any kind.
@@ -82,7 +82,7 @@ keyword spam under the metadata policy. Describe what this does instead.
 
 ## Single purpose
 
-> Longshot has one purpose: capturing a complete web page as an image file. Every
+> Foldout has one purpose: capturing a complete web page as an image file. Every
 > permission and every line of code serves that one function. It does not modify
 > pages, block content, manage tabs, or provide any unrelated feature.
 
@@ -90,7 +90,7 @@ keyword spam under the metadata policy. Describe what this does instead.
 
 **`activeTab`:**
 
-> Longshot must read the rendered content of the page the user wants to
+> Foldout must read the rendered content of the page the user wants to
 > photograph. activeTab grants that access only for the single tab the user
 > invoked the extension on, only at the moment they click the toolbar icon, and it
 > lapses when they navigate away. This was chosen deliberately over host
@@ -98,7 +98,7 @@ keyword spam under the metadata policy. Describe what this does instead.
 
 **`scripting`:**
 
-> Required to call chrome.scripting.executeScript. Longshot injects short
+> Required to call chrome.scripting.executeScript. Foldout injects short
 > functions into the invoked tab to measure the page height, scroll it one
 > screenful at a time, temporarily hide sticky and fixed elements so they are not
 > repeated down the image, show the progress panel, and then restore the page to
@@ -113,7 +113,7 @@ stylesheet. `node tools/package.mjs` refuses to build if any of these appear.
 
 Tick **nothing** in the data categories, and certify all three statements.
 
-Chrome defines collection as transmitting data off the user's device. Longshot
+Chrome defines collection as transmitting data off the user's device. Foldout
 reads page pixels in order to draw them onto a canvas in the user's own browser
 and hands the result straight back to them. Nothing is transmitted, persisted to
 a server, or shared, so every category is correctly answered "no":

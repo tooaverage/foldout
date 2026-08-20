@@ -67,7 +67,7 @@ if (problems.length) {
   process.exit(1);
 }
 
-const out = path.join(ROOT, `longshot-${manifest.version}.zip`);
+const out = path.join(ROOT, `foldout-${manifest.version}.zip`);
 fs.rmSync(out, { force: true });
 const zip = spawnSync('zip', ['-r', '-X', '-q', out, ...SHIP], { cwd: ROOT });
 if (zip.status !== 0) {

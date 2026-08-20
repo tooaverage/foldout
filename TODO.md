@@ -1,4 +1,4 @@
-# Longshot: what is left
+# Foldout: what is left
 
 ## Only you can do these
 
@@ -25,7 +25,7 @@
 - Listing copy, single-purpose statement, both permission justifications and the
   full data-disclosure table, all written out in `STORE.md`.
 - Privacy policy written, and live at
-  <https://tooaverage.github.io/longshot/privacy.html>.
+  <https://tooaverage.github.io/foldout/privacy.html>.
 - Five listing images in `store-assets/`: four 1280x800 screenshots plus the
   440x280 promo tile.
 - `node tools/package.mjs` builds the upload and blocks the build if a permission
@@ -59,9 +59,9 @@ work from your file directly. The Google Drive connector is in the same state.
 `gh` was signed in as **tooaverage**, so the repo is created, pushed, and serving
 Pages:
 
-- Source: <https://github.com/tooaverage/longshot>
-- Privacy policy, for the store form: <https://tooaverage.github.io/longshot/privacy.html>
-- Landing page: <https://tooaverage.github.io/longshot/>
+- Source: <https://github.com/tooaverage/foldout>
+- Privacy policy, for the store form: <https://tooaverage.github.io/foldout/privacy.html>
+- Landing page: <https://tooaverage.github.io/foldout/>
 
 The privacy page is generated from `PRIVACY.md`, so the words live in one place.
 Public also happens to back the privacy claim: anyone can read the source and

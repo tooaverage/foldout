@@ -9,7 +9,7 @@ import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const EXT_SRC = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const HERE = fs.mkdtempSync(path.join(os.tmpdir(), 'longshot-e2e-'));
+const HERE = fs.mkdtempSync(path.join(os.tmpdir(), 'foldout-e2e-'));
 // Derived per process: fixed ports meant a back-to-back run could bind-fail and
 // silently attach to the previous run's leftover browser, testing the wrong page.
 const PORT = 9300 + (process.pid % 300);
@@ -40,7 +40,7 @@ function writeFixture(dir) {
 
   fs.writeFileSync(
     path.join(dir, 'index.html'),
-    `<!doctype html><meta charset="utf-8"><title>Longshot torture page</title>
+    `<!doctype html><meta charset="utf-8"><title>Foldout torture page</title>
 <style>
   html,body{margin:0;padding:0}
   body{font:600 64px/1 ui-sans-serif,system-ui,sans-serif;color:#fff}
@@ -151,7 +151,7 @@ function stageExtension() {
 
 const fixtureDir = path.join(HERE, 'fixture');
 const extDir = stageExtension();
-const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'longshot-profile-'));
+const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'foldout-profile-'));
 writeFixture(fixtureDir);
 
 const server = spawn('python3', ['-m', 'http.server', String(HTTP_PORT), '--bind', '127.0.0.1'], {
@@ -236,7 +236,7 @@ try {
   await sw.eval(`(async () => { ${findTab} await exec(tab.id, prepare); await exec(tab.id, mountOverlay); })()`);
   record(await page.eval(wheelBlocked), 'user scrolling is blocked while capturing');
   record(
-    await page.eval(`document.querySelectorAll('#__longshot_ui, #__longshot_banner').length === 1`),
+    await page.eval(`document.querySelectorAll('#__foldout_ui, #__foldout_banner').length === 1`),
     'progress overlay is mounted during capture'
   );
   await sw.eval(`(async () => { ${findTab} await exec(tab.id, restore); })()`);
@@ -416,13 +416,13 @@ try {
     let visible = 0, samples = 0;
     let curtainSeen = false, curtainDuringCapture = false, curtainWords = '';
     for (let i = 0; i < 700; i++) {
-      const curtain = document.getElementById('__longshot_curtain');
+      const curtain = document.getElementById('__foldout_curtain');
       if (curtain) {
         curtainSeen = true;
         const w = curtain.shadowRoot && curtain.shadowRoot.querySelector('.word');
         if (w) curtainWords = w.textContent;
       }
-      const host = document.getElementById('__longshot_ui');
+      const host = document.getElementById('__foldout_ui');
       if (!host) {
         if (samples > 5) break;
       } else {
@@ -465,7 +465,10 @@ try {
   record(popupRun === 'done', `popup-driven capture runs to completion (${popupRun})`);
 
   const filename = await viewer.eval(`(() => {
-    const brand = chrome.runtime.getManifest().name.toLowerCase();
+    // short_name is the right source: the listing name carries search keywords
+    // and would make for an absurd filename.
+    const m = chrome.runtime.getManifest();
+    const brand = (m.short_name || m.name).toLowerCase();
     return { name: name(segments[0], 'png'), brand };
   })()`);
   record(
@@ -495,7 +498,7 @@ try {
     `(() => {
        const e = new WheelEvent('wheel', { cancelable: true, bubbles: true });
        window.dispatchEvent(e);
-       return { locked: e.defaultPrevented, overlay: document.querySelectorAll('#__longshot_ui').length };
+       return { locked: e.defaultPrevented, overlay: document.querySelectorAll('#__foldout_ui').length };
      })()`
   );
   record(
@@ -525,7 +528,7 @@ try {
   for (let i = 0; i < 100 && !panelUp; i++) {
     panelUp = await page.eval(
       `(() => {
-         const h = document.getElementById('__longshot_ui');
+         const h = document.getElementById('__foldout_ui');
          return Boolean(h) && getComputedStyle(h).visibility !== 'hidden' && h.getBoundingClientRect().width > 100;
        })()`
     );
@@ -537,7 +540,7 @@ try {
   // otherwise include the contents of its <style> element.
   const wording = await page.eval(
     `(() => {
-       const r = document.getElementById('__longshot_ui');
+       const r = document.getElementById('__foldout_ui');
        if (!r || !r.shadowRoot) return null;
        const part = (sel) => {
          const n = r.shadowRoot.querySelector(sel);
@@ -595,8 +598,8 @@ try {
     const quiet = await page.eval(`(async () => {
       let panel = false, curtain = false;
       for (let i = 0; i < 220; i++) {
-        if (document.getElementById('__longshot_ui')) panel = true;
-        if (document.getElementById('__longshot_curtain')) curtain = true;
+        if (document.getElementById('__foldout_ui')) panel = true;
+        if (document.getElementById('__foldout_curtain')) curtain = true;
         await new Promise(r => setTimeout(r, 15));
       }
       return { panel, curtain };
@@ -632,8 +635,8 @@ try {
          scrollY: window.scrollY,
          banner: getComputedStyle(document.getElementById('banner')).visibility,
          header: getComputedStyle(document.querySelector('header')).visibility,
-         styleLeft: document.querySelectorAll('#__longshot_style').length,
-         overlayLeft: document.querySelectorAll('#__longshot_ui, #__longshot_banner').length,
+         styleLeft: document.querySelectorAll('#__foldout_style').length,
+         overlayLeft: document.querySelectorAll('#__foldout_ui, #__foldout_banner').length,
          stillLocked: e.defaultPrevented,
        };
      })()`
@@ -668,7 +671,7 @@ try {
   );
 
   const afterAbort = await page.eval(
-    `({ leftovers: document.querySelectorAll('#__longshot_style, #__longshot_ui').length })`
+    `({ leftovers: document.querySelectorAll('#__foldout_style, #__foldout_ui').length })`
   );
   record(afterAbort.leftovers === 0, 'an aborted capture still cleans up after itself');
 

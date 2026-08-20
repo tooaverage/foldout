@@ -29,18 +29,18 @@ let meta = null;
 start();
 
 async function start() {
-  const info = await ask({ type: 'longshot:meta' });
+  const info = await ask({ type: 'foldout:meta' });
   if (!info || !info.ok) return fail('That capture has expired.', 'Take a new one from the toolbar.');
 
   meta = info.meta;
-  document.title = meta.title + ' · Longshot';
+  document.title = meta.title + ' · Foldout';
   el('title').textContent = meta.title;
 
   let scale = 1;
   let totalHeight = 0;
 
   for (let i = 0; i < info.count; i++) {
-    const res = await ask({ type: 'longshot:slice', index: i });
+    const res = await ask({ type: 'foldout:slice', index: i });
     if (!res || !res.ok) return fail('That capture has expired.', 'Take a new one from the toolbar.');
     const img = await decode(res.slice.dataUrl);
 
@@ -60,7 +60,7 @@ async function start() {
     progress(i + 1, info.count);
   }
 
-  ask({ type: 'longshot:release' });
+  ask({ type: 'foldout:release' });
 
   for (const seg of segments) seg.blob = await toBlob(seg.canvas, 'image/png');
   paint(scale, totalHeight);
@@ -229,11 +229,14 @@ function name(seg, ext) {
   const part = segments.length > 1 ? '-' + (seg.index + 1) + 'of' + segments.length : '';
   // Lead with the extension's own name so a file that gets shared says where it
   // came from. Read from the manifest so a rename carries through by itself.
+  // short_name first: the listing name carries search keywords and would make
+  // an absurd filename prefix.
+  const manifest = chrome.runtime.getManifest();
   const brand =
-    (chrome.runtime.getManifest().name || 'longshot')
+    (manifest.short_name || manifest.name || 'foldout')
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-|-$/g, '') || 'longshot';
+      .replace(/^-|-$/g, '') || 'foldout';
   return brand + '-' + slug + '-' + stamp + part + '.' + (ext || 'png');
 }
 

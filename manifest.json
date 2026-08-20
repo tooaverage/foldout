@@ -1,8 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "Longshot",
+  "name": "Foldout: Full Page & Scrolling Screenshot",
+  "short_name": "Foldout",
   "version": "1.0.0",
-  "description": "Full-page screenshots at your screen's native resolution. Nothing leaves your machine.",
+  "description": "Capture a whole page as one image at your screen's full resolution. Nothing is uploaded, nothing is downscaled.",
   "permissions": [
     "activeTab",
     "scripting"

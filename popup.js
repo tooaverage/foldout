@@ -3,7 +3,7 @@
 // up inside the screenshot it is reporting on.
 
 const el = (id) => document.getElementById(id);
-const port = chrome.runtime.connect({ name: 'longshot' });
+const port = chrome.runtime.connect({ name: 'foldout' });
 
 port.onMessage.addListener(render);
 el('stop').addEventListener('click', () => {

@@ -1,4 +1,4 @@
-// Longshot, scroll the page, capture each screenful, hand the pieces to the
+// Foldout, scroll the page, capture each screenful, hand the pieces to the
 // viewer tab to stitch. Everything runs locally; nothing is ever sent anywhere.
 
 // chrome.tabs.captureVisibleTab is quota-limited to roughly 2 calls/second.
@@ -11,7 +11,7 @@ const PANEL_MIN_SCREENFULS = 4;
 const JOB_TTL_MS = 5 * 60 * 1000;
 
 const TAB_LEFT =
-  'Capture stopped because you switched tabs. Longshot can only photograph ' +
+  'Capture stopped because you switched tabs. Foldout can only photograph ' +
   'whichever tab is in front, so stay on the page while it scrolls.';
 
 const jobs = new Map();
@@ -27,7 +27,7 @@ let runSeq = 0;
 // The popup is the progress display. It lives in browser UI, so unlike anything
 // drawn on the page it can never be photographed by the capture it is reporting.
 chrome.runtime.onConnect.addListener((port) => {
-  if (port.name !== 'longshot') return;
+  if (port.name !== 'foldout') return;
   statusPort = port;
   port.onDisconnect.addListener(() => {
     if (statusPort === port) statusPort = null;
@@ -67,9 +67,9 @@ async function begin(tab) {
     // "Can't work here" is a normal answer, not a crash, so say it quietly.
     const expected = Boolean(err && err.expected);
     const reason = String(err && err.message ? err.message : err);
-    console[expected ? 'warn' : 'error']('[Longshot]', err);
+    console[expected ? 'warn' : 'error']('[Foldout]', err);
     badge(expected ? '–' : '!', expected ? '#5f5f5a' : '#a8321d');
-    chrome.action.setTitle({ title: 'Longshot: ' + reason });
+    chrome.action.setTitle({ title: 'Foldout: ' + reason });
     report({ phase: 'error', message: reason, expected });
   } finally {
     running = false;
@@ -96,11 +96,11 @@ chrome.runtime.onMessage.addListener((msg, _sender, respond) => {
     respond({ ok: false });
     return;
   }
-  if (msg.type === 'longshot:meta') {
+  if (msg.type === 'foldout:meta') {
     respond({ ok: true, meta: job.meta, count: job.slices.length });
-  } else if (msg.type === 'longshot:slice') {
+  } else if (msg.type === 'foldout:slice') {
     respond({ ok: true, slice: job.slices[msg.index] });
-  } else if (msg.type === 'longshot:release') {
+  } else if (msg.type === 'foldout:release') {
     jobs.delete(msg.jobId);
     respond({ ok: true });
   } else {
@@ -127,7 +127,7 @@ async function capture(tab) {
     } catch {}
     if (!allowed) {
       throw expectedError(
-        'To capture local files, open chrome://extensions, click Details on Longshot, and turn on "Allow access to file URLs".'
+        'To capture local files, open chrome://extensions, click Details on Foldout, and turn on "Allow access to file URLs".'
       );
     }
   }
@@ -287,7 +287,7 @@ async function grab(windowId, tabId, pageUrl) {
       // the shutter. Say the useful thing rather than Chrome's version.
       if (/Cannot access contents|must request permission/i.test(text)) {
         throw expectedError(
-          'Capture stopped because the frontmost tab changed. Longshot can only photograph whichever tab is in front, so stay on the page while it scrolls.'
+          'Capture stopped because the frontmost tab changed. Foldout can only photograph whichever tab is in front, so stay on the page while it scrolls.'
         );
       }
       throw err;
@@ -334,7 +334,7 @@ function prepare() {
     listeners: [],
     aborted: false,
   };
-  window.__longshot = state;
+  window.__foldout = state;
   doc.style.scrollBehavior = 'auto';
 
   // Telling the user not to scroll is weaker than simply not letting them.
@@ -359,7 +359,7 @@ function prepare() {
   for (const [type, fn, opts] of state.listeners) window.addEventListener(type, fn, opts);
 
   const style = document.createElement('style');
-  style.id = '__longshot_style';
+  style.id = '__foldout_style';
   style.textContent =
     'html{scrollbar-width:none!important}' +
     '::-webkit-scrollbar{width:0!important;height:0!important;display:none!important}';
@@ -371,13 +371,13 @@ function prepare() {
 //
 // Built node by node inside a shadow root, so pages that enforce Trusted Types
 // don't throw on innerHTML and no page CSS can reach in and restyle it. It
-// stays dark in both themes on purpose, this is Longshot's hand on somebody
-// else's page, not part of Longshot's own surface.
+// stays dark in both themes on purpose, this is Foldout's hand on somebody
+// else's page, not part of Foldout's own surface.
 function mountOverlay() {
-  if (document.getElementById('__longshot_ui')) return null;
+  if (document.getElementById('__foldout_ui')) return null;
 
   const host = document.createElement('div');
-  host.id = '__longshot_ui';
+  host.id = '__foldout_ui';
   host.setAttribute('aria-hidden', 'true');
   const root = host.attachShadow({ mode: 'open' });
 
@@ -418,7 +418,7 @@ function mountOverlay() {
 
   const hint = document.createElement('p');
   hint.className = 'hint';
-  hint.textContent = 'Longshot is scrolling for you. Stay on this tab. Press Esc to stop.';
+  hint.textContent = 'Foldout is scrolling for you. Stay on this tab. Press Esc to stop.';
 
   card.append(row, track, hint);
   root.append(style, card);
@@ -430,7 +430,7 @@ function mountOverlay() {
 // scroll. Removed before the first screenful is taken, so it can never be
 // photographed.
 function showCurtain() {
-  if (document.getElementById('__longshot_curtain')) return;
+  if (document.getElementById('__foldout_curtain')) return;
 
   const readable = (value) => value && value !== 'transparent' && !/,\s*0\)$/.test(value);
   const body = document.body ? getComputedStyle(document.body).backgroundColor : '';
@@ -439,7 +439,7 @@ function showCurtain() {
   const backdrop = readable(body) ? body : readable(rootBg) ? rootBg : dark ? '#101013' : '#ffffff';
 
   const host = document.createElement('div');
-  host.id = '__longshot_curtain';
+  host.id = '__foldout_curtain';
   host.setAttribute('aria-hidden', 'true');
   const shadow = host.attachShadow({ mode: 'open' });
 
@@ -463,7 +463,7 @@ function showCurtain() {
   word.className = 'word';
   // The panel below carries progress; the cover carries the instruction, since
   // this is where the eye lands while the page races past.
-  word.textContent = 'Longshot is scrolling this page to load everything. Stay on this tab.';
+  word.textContent = 'Foldout is scrolling this page to load everything. Stay on this tab.';
   veil.append(word);
   shadow.append(style, veil);
   (document.body || document.documentElement).appendChild(host);
@@ -472,7 +472,7 @@ function showCurtain() {
 }
 
 function hideCurtain() {
-  const host = document.getElementById('__longshot_curtain');
+  const host = document.getElementById('__foldout_curtain');
   if (!host) return null;
   const veil = host.shadowRoot && host.shadowRoot.querySelector('.veil');
   if (veil) veil.classList.remove('on');
@@ -485,8 +485,8 @@ function hideCurtain() {
 }
 
 function setOverlay(next) {
-  const host = document.getElementById('__longshot_ui');
-  const state = window.__longshot;
+  const host = document.getElementById('__foldout_ui');
+  const state = window.__foldout;
   const aborted = Boolean(state && state.aborted);
   if (!host) return { aborted, hidden: document.hidden };
 
@@ -570,7 +570,7 @@ async function scrollToY(y) {
     setTimeout(done, 300);
   });
   await new Promise((r) => setTimeout(r, 130));
-  const state = window.__longshot;
+  const state = window.__foldout;
   return {
     y: window.scrollY,
     height: document.documentElement.scrollHeight,
@@ -580,11 +580,11 @@ async function scrollToY(y) {
 }
 
 function hideStuckElements() {
-  const state = window.__longshot;
+  const state = window.__foldout;
   if (!state) return 0;
   const all = document.body ? document.body.querySelectorAll('*') : [];
   for (const el of all) {
-    if (el.id === '__longshot_ui' || el.id === '__longshot_curtain') continue; // ours, managed separately
+    if (el.id === '__foldout_ui' || el.id === '__foldout_curtain') continue; // ours, managed separately
     const cs = getComputedStyle(el);
     if (cs.position !== 'fixed' && cs.position !== 'sticky') continue;
     if (cs.visibility === 'hidden' || cs.display === 'none') continue;
@@ -595,10 +595,10 @@ function hideStuckElements() {
 }
 
 function restore() {
-  const state = window.__longshot;
-  const style = document.getElementById('__longshot_style');
-  const overlay = document.getElementById('__longshot_ui');
-  const curtain = document.getElementById('__longshot_curtain');
+  const state = window.__foldout;
+  const style = document.getElementById('__foldout_style');
+  const overlay = document.getElementById('__foldout_ui');
+  const curtain = document.getElementById('__foldout_curtain');
   if (style) style.remove();
   if (overlay) overlay.remove();
   if (curtain) curtain.remove();
@@ -612,5 +612,5 @@ function restore() {
   }
   document.documentElement.style.scrollBehavior = state.scrollBehavior || '';
   window.scrollTo(state.scrollX, state.scrollY);
-  window.__longshot = null;
+  window.__foldout = null;
 }

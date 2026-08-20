@@ -1,6 +1,6 @@
-# Longshot
+# Foldout
 
-<https://tooaverage.github.io/longshot/>
+<https://tooaverage.github.io/foldout/>
 
 A full-page screenshot extension for Chrome. It scrolls the page, captures each
 screenful at your display's native resolution, and stitches them into one image.

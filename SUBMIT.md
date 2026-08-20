@@ -1,4 +1,4 @@
-# Submitting Longshot
+# Submitting Foldout
 
 Two separate things, in this order. The first submission has to be done by hand
 in the dashboard; the API only helps with the updates after it.
@@ -19,10 +19,14 @@ in the dashboard; the API only helps with the updates after it.
 ## Build the upload
 
 ```
-node tools/package.mjs
+node tools/preflight.mjs
 ```
 
-Produces `longshot-1.0.0.zip`, runtime files only. If you renamed the extension,
+Checks the manifest, that nothing still carries an old name, that the listing
+images are the right dimensions, that every URL in the docs resolves, and then
+builds the zip. Run this rather than `package.mjs` directly.
+
+Produces `foldout-1.0.0.zip`, runtime files only. If you renamed the extension,
 edit `manifest.json` first and re-run.
 
 ## Dashboard, tab by tab
@@ -43,8 +47,8 @@ Read-only confirmation of what you uploaded. Nothing to fill in.
 | Language | English |
 | Screenshots | All four 1280x800 PNGs from [store-assets/](store-assets/) |
 | Small promo tile | `store-assets/5-promo-tile-440x280.png` |
-| Homepage URL | <https://tooaverage.github.io/longshot/> |
-| Support URL | <https://github.com/tooaverage/longshot/issues> |
+| Homepage URL | <https://tooaverage.github.io/foldout/> |
+| Support URL | <https://github.com/tooaverage/foldout/issues> |
 
 Do **not** mention GoFullPage anywhere. Trading on their trademark invites the
 same delisting, and it reads as keyword spam under the metadata policy.
@@ -59,7 +63,7 @@ same delisting, and it reads as keyword spam under the metadata policy.
 | Remote code | **No** |
 | Data collection | Tick **nothing**. All nine categories are "no" |
 | Three certifications | Tick all three |
-| Privacy policy URL | <https://tooaverage.github.io/longshot/privacy.html> |
+| Privacy policy URL | <https://tooaverage.github.io/foldout/privacy.html> |
 
 ### Distribution
 Free. Public visibility. All regions unless you want otherwise.
@@ -91,7 +95,7 @@ Do this after Part 1, or in parallel if you like.
 
 ### 1. Create a Google Cloud project
 Go to <https://console.cloud.google.com/projectcreate>, name it anything
-(`longshot-publishing` is fine), create it, and make sure it is selected.
+(`foldout-publishing` is fine), create it, and make sure it is selected.
 
 ### 2. Enable the API
 Go to <https://console.cloud.google.com/apis/library/chromewebstore.googleapis.com>
