@@ -41,15 +41,27 @@ for (const f of [...new Set(referenced)]) check(fs.existsSync(f), `${f} exists`)
 
 console.log(`\nnaming is consistent`);
 // A half-finished rename is the likeliest thing to leak into a listing.
+// Assembled from pieces so this file does not match its own check.
+const RETIRED = ['long' + 'shot'];
 const stale = [];
 for (const f of tracked) {
   if (f.startsWith('store-assets/') || f.startsWith('icons/')) continue;
   let text;
   try { text = fs.readFileSync(f, 'utf8'); } catch { continue; }
-  const hits = text.match(/longshot/gi);
-  if (hits) stale.push(`${f} (${hits.length})`);
+  const hits = RETIRED.flatMap((name) => text.match(new RegExp(name, 'gi')) || []);
+  if (hits.length) stale.push(`${f} (${hits.length})`);
 }
 check(stale.length === 0, `no trace of a previous name left in the source${stale.length ? ': ' + stale.join(', ') : ''}`);
+
+console.log(`\nthe guides quote the live manifest`);
+// Chrome takes the listing title and summary from the manifest, so a guide that
+// quotes stale values sends you to paste something you cannot paste.
+for (const doc of ['SUBMIT.md', 'STORE.md']) {
+  if (!fs.existsSync(doc)) continue;
+  const text = fs.readFileSync(doc, 'utf8');
+  check(text.includes(manifest.name), `${doc} quotes the current listing title`);
+  check(text.includes(manifest.description), `${doc} quotes the current summary`);
+}
 
 console.log(`\nlisting assets`);
 const png = (f) => {

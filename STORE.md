@@ -46,9 +46,15 @@ keyword spam under the metadata policy. Describe what this does instead.
 
 **Category:** Workflow & Planning
 
-**Summary** (132 characters max, this is 92):
+**Title and summary come from the manifest, not from dashboard fields.** Chrome
+reads the title from `name` and the summary from `description`, so changing
+either means editing `manifest.json` and uploading a new zip. Currently:
 
-> Capture a whole web page as one image at your screen's full resolution. Nothing is uploaded.
+> **Foldout: Full Page & Scrolling Screenshot**
+>
+> Capture a whole page as one image at your screen's full resolution. Nothing is uploaded, nothing is downscaled.
+
+That summary is 111 characters, against a limit of 132.
 
 **Detailed description:**
 

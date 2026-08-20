@@ -31,7 +31,11 @@ edit `manifest.json` first and re-run.
 
 ## Dashboard, tab by tab
 
-Click **Add new item** and upload the zip. Then five tabs:
+Click **Add new item** and upload the zip. Then five tabs.
+
+Note before you start: the **title and summary are not editable in the
+dashboard**. Chrome takes them from the manifest's `name` and `description`. To
+change either, edit `manifest.json`, re-run preflight, and upload the new zip.
 
 ### Package
 Read-only confirmation of what you uploaded. Nothing to fill in.
@@ -40,9 +44,9 @@ Read-only confirmation of what you uploaded. Nothing to fill in.
 
 | Field | What to put |
 |---|---|
-| Title | Your final name |
-| Summary | `Capture a whole web page as one image at your screen's full resolution. Nothing is uploaded.` (92 chars, limit is 132) |
-| Description | The long description in [STORE.md](STORE.md), copy verbatim |
+| Title | **Not a field here.** Taken from the manifest `name`, already set to `Foldout: Full Page & Scrolling Screenshot` |
+| Summary | **Not a field here either.** Taken from the manifest `description`, already set to `Capture a whole page as one image at your screen's full resolution. Nothing is uploaded, nothing is downscaled.` (111 chars, limit 132) |
+| Description | The long description in [STORE.md](STORE.md), copy verbatim. This one *is* a dashboard field |
 | Category | Workflow & Planning |
 | Language | English |
 | Screenshots | All four 1280x800 PNGs from [store-assets/](store-assets/) |
