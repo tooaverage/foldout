@@ -46,9 +46,10 @@ keyword spam under the metadata policy. Describe what this does instead.
 
 **Category:** Workflow & Planning
 
-**Title and summary come from the manifest, not from dashboard fields.** Chrome
-reads the title from `name` and the summary from `description`, so changing
-either means editing `manifest.json` and uploading a new zip. Currently:
+**The title is read-only**, taken from the manifest `name`; to change it you
+edit `manifest.json` and upload a new zip. **The summary is an editable field**
+in the Store listing tab, pre-filled from the manifest `description`. Keep the
+two identical so they cannot drift. Currently:
 
 > **Foldout: Full Page & Scrolling Screenshot**
 >
