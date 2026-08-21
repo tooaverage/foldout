@@ -33,8 +33,8 @@ keyword spam under the metadata policy. Describe what this does instead.
       and ideally the repo. Search the store for it first.
 - [ ] Pay the one-time $5 developer registration fee and verify the account.
 - [x] Privacy policy is live at <https://tooaverage.github.io/foldout/privacy.html>. Paste that into the Privacy tab.
-- [ ] Produce listing screenshots (see below).
-- [ ] Run `node tools/package.mjs` and upload the resulting zip.
+- [x] Listing screenshots and the promo tile are built, in `store-assets/`.
+- [ ] Run `node tools/preflight.mjs` and upload the resulting zip.
 
 **Privacy policy URL:** <https://tooaverage.github.io/foldout/privacy.html>
 
@@ -148,7 +148,7 @@ network-capable API anywhere in the package.
 ## Screenshots
 
 Four are built and sitting in [`store-assets/`](store-assets/), all exactly
-1280x800 PNG, which is what the store wants:
+1280x800 PNG, which is what the store wants, plus the promo tile:
 
 | File | Shows |
 |---|---|
@@ -170,8 +170,8 @@ Neither of your sites is tall enough to trigger it. getthybread.com came back
 the split is described in the listing text instead. If you capture a genuinely
 enormous page later, add it as a fifth.
 
-Still worth making by hand: the **440x280 small promo tile**, which is what the
-store shows in search results and category listings.
+The **440x280 small promo tile**, which the store shows in search results and
+category listings, is built too: `5-promo-tile-440x280.png`.
 
 To regenerate the four after a UI change, the scripts are in the session
 scratchpad (`storeshots.mjs` captures the raw UI, `compose.mjs` lays them out).
