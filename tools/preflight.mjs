@@ -69,17 +69,20 @@ const png = (f) => {
   return [d.readUInt32BE(16), d.readUInt32BE(20)];
 };
 const shots = fs.existsSync('store-assets') ? fs.readdirSync('store-assets').filter((f) => f.endsWith('.png')).sort() : [];
-const wide = shots.filter((f) => !f.includes('440x280'));
-check(wide.length >= 1, `${wide.length} listing screenshots present`);
-for (const f of wide) {
+// A file that names its own dimensions is a promo tile and is checked against
+// them; everything else is a listing screenshot and must be 1280x800.
+const screenshots = shots.filter((f) => !/\d+x\d+/.test(f));
+check(screenshots.length >= 1, `${screenshots.length} listing screenshots present`);
+for (const f of shots) {
+  const named = f.match(/(\d+)x(\d+)/);
+  const [want, tall] = named ? [Number(named[1]), Number(named[2])] : [1280, 800];
   const [w, h] = png(path.join('store-assets', f));
-  check(w === 1280 && h === 800, `${f} is 1280x800 (${w}x${h})`);
+  check(w === want && h === tall, `${f} is ${want}x${tall} (${w}x${h})`);
+  // The store rejects alpha on promo tiles.
+  const colourType = fs.readFileSync(path.join('store-assets', f))[25];
+  if (named) check(colourType === 2 || colourType === 0, `${f} has no alpha channel`);
 }
-const tile = shots.find((f) => f.includes('440x280'));
-if (tile) {
-  const [w, h] = png(path.join('store-assets', tile));
-  check(w === 440 && h === 280, `${tile} is 440x280 (${w}x${h})`);
-} else notes.push('no 440x280 promo tile found');
+if (!shots.some((f) => f.includes('440x280'))) notes.push('no 440x280 small promo tile found');
 
 console.log(`\npackage`);
 const built = spawnSync('node', ['tools/package.mjs'], { encoding: 'utf8' });
