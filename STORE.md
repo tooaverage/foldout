@@ -158,11 +158,15 @@ Four are built and sitting in [`store-assets/`](store-assets/), all exactly
 | `3-tells-you.png` | The popup and the on-page panel, both mid-capture |
 | `4-private.png` | The permission story, spelled out |
 
-They were shot against **getthybread.com**, which you own, so no third-party
-branding appears anywhere. That matters: showing someone else's page in a
-listing is the same category of risk that got the incumbent delisted. The one
-crop that caught the GitHub and Microsoft logos in your footer was rejected and
-re-taken higher up the page.
+They are shot against a generic demo page built for the purpose, not a real
+site. That is deliberate on two counts: someone else's branded page in a listing
+is the risk that got the incumbent delisted, and a recognisable real site
+competes for attention with the thing being sold. It also lets the page be as
+tall as the demo needs, which is what makes the size claim worth showing at all
+(2560 x 22,734).
+
+The extension UI in every image is real, captured from an actual run. Only the
+page being photographed is a mock, which is the same approach Loom uses.
 
 **Deliberately missing: a fifth showing a page split into several images.**
 Neither of your sites is tall enough to trigger it. getthybread.com came back
